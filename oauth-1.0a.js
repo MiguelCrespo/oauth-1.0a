@@ -319,9 +319,13 @@ OAuth.prototype.toHeader = function(oauth_data) {
 OAuth.prototype.getNonce = function() {
     var word_characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     var result = '';
-
+    
     for(var i = 0; i < this.nonce_length; i++) {
-        result += word_characters[parseInt(Math.random() * word_characters.length, 10)];
+        if(typeof window !== 'undefined' && window.crypto){
+            result += word_characters[parseInt(window.crypto.getRandomValues(new Uint32Array(1))/10000000000 * word_characters.length, 10)];
+        } else {
+            result += word_characters[parseInt(Math.random() * word_characters.length, 10)];
+        }
     }
 
     return result;
