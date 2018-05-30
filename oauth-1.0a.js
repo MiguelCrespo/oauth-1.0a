@@ -321,14 +321,10 @@ OAuth.prototype.getNonce = function() {
     var result = '';
     
     for(var i = 0; i < this.nonce_length; i++) {
-        if(typeof window !== 'undefined' && window.crypto){
-            result += word_characters[parseInt(window.crypto.getRandomValues(new Uint32Array(1))/10000000000 * word_characters.length, 10)];
-        } else {
-            result += word_characters[parseInt(Math.random() * word_characters.length, 10)];
-        }
+       result += word_characters[parseInt(Math.random() * word_characters.length, 10)];
     }
 
-    return result;
+    return result + new Date().getTime();
 };
 
 /**
